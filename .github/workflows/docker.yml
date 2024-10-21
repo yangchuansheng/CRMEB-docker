@@ -89,6 +89,7 @@ jobs:
       - name: Checkout latest tag
         run: |
           git checkout ${{ needs.get-latest-tag.outputs.tag }}
+          ls -lh
 
       #- name: Get tag
       #  id: tag
