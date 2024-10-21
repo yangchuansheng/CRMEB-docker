@@ -55,6 +55,7 @@ jobs:
         with:
           fetch-depth: 0
           repository: crmeb/CRMEB
+          ref: '${{ needs.get-latest-tag.outputs.tag }}'
 
       - name: Docker meta
         id: meta
@@ -89,7 +90,8 @@ jobs:
           
       - name: Checkout latest tag
         run: |
-          git checkout ${{ needs.get-latest-tag.outputs.tag }}
+          echo "ADD ../../crmeb /var/www" >> docker-compose/php/Dockerfile
+          echo "ADD ./php-ini-overrides.ini /etc/php/7.4/fpm/conf.d/99-overrides.ini" >> docker-compose/php/Dockerfile
 
       #- name: Get tag
       #  id: tag
