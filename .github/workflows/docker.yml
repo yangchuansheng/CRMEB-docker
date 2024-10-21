@@ -127,8 +127,8 @@ jobs:
       - name: Build and push nginx Docker images to ghcr.io and DockerHub
         uses: docker/build-push-action@v6
         with:
-          context: .
-          file: ./Dockerfile
+          context: ./nginx
+          file: ./nginx/Dockerfile
           push: true
           tags: ${{ steps.meta-nginx.outputs.tags }}
           labels: ${{ steps.meta-nginx.outputs.labels }}
