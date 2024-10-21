@@ -50,14 +50,17 @@ jobs:
     if: needs.get-latest-tag.outputs.addtag == 'true'
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Checkout CRMEB
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           repository: crmeb/CRMEB
           ref: '${{ needs.get-latest-tag.outputs.tag }}'
+          path: CRMEB
 
-      - name: Docker meta
+      - name: CRMEB Docker meta
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -65,6 +68,18 @@ jobs:
           images: |
             ${{ secrets.DOCKER_USERNAME }}/CRMEB
             ghcr.io/${{ github.repository_owner }}/CRMEB
+          tags: |
+            type=ref,event=tag
+            type=raw,value=${{ needs.get-latest-tag.outputs.tag }}
+
+      - name: nginx Docker meta
+        id: meta-nginx
+        uses: docker/metadata-action@v5
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ${{ secrets.DOCKER_USERNAME }}/CRMEB-nginx
+            ghcr.io/${{ github.repository_owner }}/CRMEB-nginx
           tags: |
             type=ref,event=tag
             type=raw,value=${{ needs.get-latest-tag.outputs.tag }}
@@ -99,12 +114,21 @@ jobs:
       #  with:
       #    strip_v: true # Optional: Remove 'v' character from version
 
-      - name: Build and push Docker images to ghcr.io and DockerHub
+      - name: Build and push CRMEB Docker images to ghcr.io and DockerHub
         uses: docker/build-push-action@v6
         with:
-          context: .
-          file: ./docker-compose/php/Dockerfile
+          context: ./CRMEB
+          file: ./CRMEB/docker-compose/php/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           no-cache: true
+
+      - name: Build and push nginx Docker images to ghcr.io and DockerHub
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta-nginx.outputs.tags }}
+          labels: ${{ steps.meta-nginx.outputs.labels }}
