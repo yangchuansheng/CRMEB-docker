@@ -105,8 +105,8 @@ jobs:
           
       - name: update Dckerfile
         run: |
-          echo "ADD ./CRMEB/crmeb /var/www" >> docker-compose/php/Dockerfile
-          echo "ADD ./CRMEB/docker-compose/php/php-ini-overrides.ini /etc/php/7.4/fpm/conf.d/99-overrides.ini" >> docker-compose/php/Dockerfile
+          echo "ADD ./crmeb /var/www" >> ./CRMEB/docker-compose/php/Dockerfile
+          echo "ADD ./docker-compose/php/php-ini-overrides.ini /etc/php/7.4/fpm/conf.d/99-overrides.ini" >> ./CRMEB/docker-compose/php/Dockerfile
 
       #- name: Get tag
       #  id: tag
@@ -117,7 +117,7 @@ jobs:
       - name: Build and push CRMEB Docker images to ghcr.io and DockerHub
         uses: docker/build-push-action@v6
         with:
-          context: ./
+          context: ./CRMEB
           file: ./CRMEB/docker-compose/php/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
