@@ -50,10 +50,11 @@ jobs:
     if: needs.get-latest-tag.outputs.addtag == 'true'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout CRMEB
         uses: actions/checkout@v4
         with:
-          ref: ${{ needs.get-latest-tag.outputs.tag }}
+          fetch-depth: 0
+          repository: crmeb/CRMEB
 
       - name: Docker meta
         id: meta
@@ -89,7 +90,6 @@ jobs:
       - name: Checkout latest tag
         run: |
           git checkout ${{ needs.get-latest-tag.outputs.tag }}
-          ls -lh
 
       #- name: Get tag
       #  id: tag
