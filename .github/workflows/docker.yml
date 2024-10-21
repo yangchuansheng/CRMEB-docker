@@ -90,6 +90,7 @@ jobs:
           
       - name: update Dckerfile
         run: |
+          echo "RUN pwd & ls -lh" >> docker-compose/php/Dockerfile
           echo "ADD ../../crmeb /var/www" >> docker-compose/php/Dockerfile
           echo "ADD ./php-ini-overrides.ini /etc/php/7.4/fpm/conf.d/99-overrides.ini" >> docker-compose/php/Dockerfile
 
