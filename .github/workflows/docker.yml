@@ -101,7 +101,7 @@ jobs:
       #    strip_v: true # Optional: Remove 'v' character from version
 
       - name: Build and push Docker images to ghcr.io and DockerHub
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./docker-compose/php
           file: ./docker-compose/php/Dockerfile
