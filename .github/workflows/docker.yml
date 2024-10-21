@@ -91,7 +91,7 @@ jobs:
       - name: update Dckerfile
         run: |
           echo "COPY .. /var/www" >> docker-compose/php/Dockerfile
-          echo "ADD ./php-ini-overrides.ini /etc/php/7.4/fpm/conf.d/99-overrides.ini" >> docker-compose/php/Dockerfile
+          echo "ADD ./docker-compose/php/php-ini-overrides.ini /etc/php/7.4/fpm/conf.d/99-overrides.ini" >> docker-compose/php/Dockerfile
           echo "RUN ls -lh /var/www/" >> docker-compose/php/Dockerfile
 
       #- name: Get tag
@@ -103,7 +103,7 @@ jobs:
       - name: Build and push Docker images to ghcr.io and DockerHub
         uses: docker/build-push-action@v6
         with:
-          context: ./docker-compose/php
+          context: .
           file: ./docker-compose/php/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
