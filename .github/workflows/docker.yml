@@ -90,9 +90,9 @@ jobs:
           
       - name: update Dckerfile
         run: |
-          echo "# COPY ../../crmeb /var/www" >> docker-compose/php/Dockerfile
+          echo "COPY ../.. /var/www" >> docker-compose/php/Dockerfile
           echo "ADD ./php-ini-overrides.ini /etc/php/7.4/fpm/conf.d/99-overrides.ini" >> docker-compose/php/Dockerfile
-          echo "RUN cat /etc/php/7.4/fpm/conf.d/99-overrides.ini" >> docker-compose/php/Dockerfile
+          echo "RUN ls -lh /var/www/" >> docker-compose/php/Dockerfile
 
       #- name: Get tag
       #  id: tag
